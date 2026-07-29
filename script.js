@@ -41,13 +41,28 @@ const etapas = [
 
 let etapaAtual = 0;
 
-function atualizarPainel() {
+function atualizarPainelModal() {
   const panelContent = document.getElementById("panel-content");
+  const btnPrev = document.getElementById("panel-prev");
+  const btnNext = document.getElementById("panel-next");
+  const btnFinish = document.getElementById("panel-finish");
+
   const etapa = etapas[etapaAtual];
   panelContent.innerHTML = `
     <p><strong>${etapa.titulo}</strong></p>
     <p>${etapa.texto}</p>
   `;
+
+  btnPrev.disabled = etapaAtual === 0;
+
+  // Lógica da última etapa
+  if (etapaAtual === etapas.length - 1) {
+    btnNext.style.display = "none";      // Esconde o botão ▶
+    btnFinish.style.display = "block";   // Exibe o botão Concluir
+  } else {
+    btnNext.style.display = "block";    // Exibe o botão ▶
+    btnFinish.style.display = "none";    // Esconde o botão Concluir
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -63,27 +78,50 @@ document.addEventListener("DOMContentLoaded", () => {
   trainPreviewImg  = document.getElementById("trainPreview");
   testPreviewImg   = document.getElementById("testPreview");
 
-  const panelPrev         = document.getElementById("panel-prev");
-  const panelNext         = document.getElementById("panel-next");
-  const presentationPanel = document.getElementById("presentation-panel");
-  const togglePanelBtn    = document.getElementById("togglePanelBtn");
+  // Elementos dos Modais
+  const howItWorksModal = document.getElementById("howItWorksModal");
+  const guideModal      = document.getElementById("guideModal");
+
+  const openHowItWorksBtn  = document.getElementById("openHowItWorksBtn");
+  const closeHowItWorksBtn = document.getElementById("closeHowItWorksBtn");
+  const openGuideBtn       = document.getElementById("openGuideBtn");
+
+  const panelPrev   = document.getElementById("panel-prev");
+  const panelNext   = document.getElementById("panel-next");
+  const panelFinish = document.getElementById("panel-finish");
+
+  // Eventos Modal "Como Funciona"
+  openHowItWorksBtn.addEventListener("click", () => howItWorksModal.classList.remove("hidden"));
+  closeHowItWorksBtn.addEventListener("click", () => howItWorksModal.classList.add("hidden"));
+
+  // Eventos Modal "Guia Apresentação"
+  openGuideBtn.addEventListener("click", () => {
+    etapaAtual = 0;
+    atualizarPainelModal();
+    guideModal.classList.remove("hidden");
+  });
+
+  panelFinish.addEventListener("click", () => guideModal.classList.add("hidden"));
 
   panelPrev.addEventListener("click", () => {
-    etapaAtual = (etapaAtual - 1 + etapas.length) % etapas.length;
-    atualizarPainel();
+    if (etapaAtual > 0) {
+      etapaAtual--;
+      atualizarPainelModal();
+    }
   });
 
   panelNext.addEventListener("click", () => {
-    etapaAtual = (etapaAtual + 1) % etapas.length;
-    atualizarPainel();
+    if (etapaAtual < etapas.length - 1) {
+      etapaAtual++;
+      atualizarPainelModal();
+    }
   });
 
-  togglePanelBtn.addEventListener("click", () => {
-    const hidden = presentationPanel.classList.toggle("hidden");
-    togglePanelBtn.textContent = hidden ? "Mostrar guia" : "Esconder guia";
+  window.addEventListener("click", (e) => {
+    if (e.target === howItWorksModal) howItWorksModal.classList.add("hidden");
+    if (e.target === guideModal) guideModal.classList.add("hidden");
   });
 
-  atualizarPainel();
   inicializarModelo();
   configurarEventos();
 });
@@ -102,6 +140,7 @@ function inicializarModelo() {
 function loadImageToImgTag(fileInput, imgTag, callback) {
   const file = fileInput.files[0];
   if (!file) {
+    imgTag.removeAttribute("src");
     callback && callback(null);
     return;
   }
@@ -226,7 +265,7 @@ function configurarEventos() {
         const confidence = (top.confidence * 100).toFixed(2);
 
         predictResultDiv.textContent =
-          `🧠 Classe prevista: "${label}" (confiança: ${confidence}%)`;
+          `Classe prevista: "${label}" (confiança: ${confidence}%)`;
       });
     });
   });

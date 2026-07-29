@@ -2,95 +2,130 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Máquina Ensinável - Versão feita na mão (ml5.js)</title>
+  <title>Máquina Ensinável</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div id="presentation-panel">
-    <div class="panel-header">🎓 Guia de Apresentação</div>
-    <div id="panel-content"></div>
-    <div class="panel-controls">
-      <button class="panel-btn" id="panel-prev">◀</button>
-      <button class="panel-btn" id="panel-next">▶</button>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-brand">
+      <span class="brand-title">Máquina Ensinável</span>
     </div>
-  </div>
+    <div class="navbar-actions">
+      <button id="openHowItWorksBtn" class="nav-btn">Como funciona?</button>
+      <button id="openGuideBtn" class="nav-btn">Guia Apresentação</button>
+    </div>
+  </header>
 
   <div class="page">
-    <header class="header">
-      <div class="header-title">Máquina Ensinável</div>
-      <div class="header-subtitle">
-        Projeto A3 – Inteligência Artificial · Versão feita na mão com
-        <strong>ml5.js + MobileNet</strong>
-      </div>
-      <button id="togglePanelBtn" class="toggle-btn">Apresentação</button>
-    </header>
-
     <main class="container">
-      <section class="card card-intro">
-        <div class="card-header">
-          <h2>Como funciona?</h2>
-        </div>
-        <p>
-          Esta aplicação permite que você crie uma <strong>máquina ensinável</strong>.
-          Você define classes e adiciona imagens de exemplo para cada uma. Em seguida, treina o modelo e testa com novas imagens.
-        </p>
-      </section>
 
-      <section class="card">
-        <div class="card-header">
-          <h2>1. Coletar exemplos (treinamento)</h2>
-        </div>
+      <!-- COLUNA DA ESQUERDA: ETAPA 1 -->
+      <div class="column">
+        <section class="card">
+          <div class="card-header">
+            <h2>1. Coletar exemplos (treinamento)</h2>
+          </div>
 
-        <div class="form-row">
           <div class="form-group">
             <label for="className">Nome da classe:</label>
             <input type="text" id="className" placeholder="Ex.: Maçã, Gato..." />
           </div>
-        </div>
 
-        <div class="form-row">
           <div class="form-group">
-            <label for="trainImage">Imagens dessa classe:</label>
-            <input type="file" id="trainImage" accept="image/*" multiple />
-            <small class="hint">Você pode selecionar várias imagens.</small>
+            <label>Imagens dessa classe:</label>
+            <label for="trainImage" class="file-dropzone">
+              <span class="dropzone-icon">📁</span>
+              <span class="dropzone-text">Clique aqui para selecionar imagens</span>
+              <small class="hint">Você pode selecionar várias imagens de uma vez.</small>
+              <input type="file" id="trainImage" accept="image/*" multiple />
+            </label>
           </div>
-        </div>
 
-        <button id="addExampleBtn" class="primary-btn" disabled>Adicionar exemplo(s)</button>
+          <button id="addExampleBtn" class="primary-btn" disabled>Adicionar exemplo(s)</button>
 
-        <div id="classSummary" class="status-text">Nenhum exemplo adicionado ainda.</div>
-        <img id="trainPreview" class="img-preview" alt="Prévia treino" />
-      </section>
+          <div id="classSummary" class="status-text">Nenhum exemplo adicionado ainda.</div>
+          
+          <div class="preview-container">
+            <img id="trainPreview" class="img-preview" alt="Prévia treino" />
+          </div>
+        </section>
+      </div>
 
-      <section class="card">
-        <div class="card-header">
-          <h2>2. Treinar modelo</h2>
-        </div>
+      <!-- COLUNA DA DIREITA: ETAPAS 2 E 3 -->
+      <div class="column">
+        <!-- ETAPA 2: TREINAMENTO -->
+        <section class="card">
+          <div class="card-header">
+            <h2>2. Treinar modelo</h2>
+          </div>
 
-        <button id="trainBtn" class="primary-btn" disabled>Treinar modelo</button>
-        <div id="trainStatus" class="status-text">Carregando modelo base (MobileNet)...</div>
-      </section>
+          <button id="trainBtn" class="primary-btn" disabled>Treinar modelo</button>
+          <div id="trainStatus" class="status-text">Carregando modelo base (MobileNet)...</div>
+        </section>
 
-      <section class="card">
-        <div class="card-header">
-          <h2>3. Testar / Prever</h2>
-        </div>
+        <!-- ETAPA 3: TESTE / PREDIÇÃO -->
+        <section class="card">
+          <div class="card-header">
+            <h2>3. Testar / Prever</h2>
+          </div>
 
-        <div class="form-row">
           <div class="form-group">
-            <label for="testImage">Selecione uma imagem:</label>
-            <input type="file" id="testImage" accept="image/*" />
+            <label>Selecione uma imagem de teste:</label>
+            <label for="testImage" class="file-dropzone">
+              <span class="dropzone-icon">🔍</span>
+              <span class="dropzone-text">Escolher imagem para teste</span>
+              <input type="file" id="testImage" accept="image/*" />
+            </label>
           </div>
-        </div>
 
-        <button id="predictBtn" class="primary-btn" disabled>Prever classe</button>
+          <button id="predictBtn" class="primary-btn" disabled>Prever classe</button>
 
-        <div id="predictResult" class="status-text"></div>
-        <img id="testPreview" class="img-preview" alt="Prévia teste" />
-      </section>
+          <div id="predictResult" class="status-badge"></div>
+          
+          <div class="preview-container">
+            <img id="testPreview" class="img-preview" alt="Prévia teste" />
+          </div>
+        </section>
+      </div>
     </main>
   </div>
+
+  <!-- MODAL: COMO FUNCIONA -->
+  <div id="howItWorksModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3> Como funciona?</h3>
+        <button id="closeHowItWorksBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Esta aplicação permite que você crie uma <strong>máquina ensinável</strong>.
+          Você define classes e adiciona imagens de exemplo para cada uma. Em seguida, treina o modelo e testa com novas imagens.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GUIA DE APRESENTAÇÃO -->
+  <div id="guideModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3> Guia de Apresentação</h3>
+      </div>
+      <div class="modal-body" id="panel-content">
+        <!-- Texto injetado via JS -->
+      </div>
+      <div class="modal-footer">
+        <button id="panel-prev" class="modal-btn-compact secondary-btn">◀</button>
+        <button id="panel-next" class="modal-btn-compact primary-btn">▶</button>
+        <button id="panel-finish" class="modal-btn-compact primary-btn hidden">Concluir</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
