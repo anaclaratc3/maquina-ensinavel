@@ -1,4 +1,4 @@
-# 🧠 Máquina Ensinável
+# Máquina Ensinável
 
 Aplicação web interativa desenvolvida para demonstrar o conceito de **Machine Learning no client-side** através de **Transfer Learning** (aprendizado por transferência). 
 
@@ -6,7 +6,7 @@ O projeto permite cadastrar classes customizadas, coletar amostras de imagem, tr
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+)
 - **Machine Learning / IA:** [ml5.js](https://ml5js.org/) (baseado em TensorFlow.js)
@@ -14,7 +14,7 @@ O projeto permite cadastrar classes customizadas, coletar amostras de imagem, tr
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - **Coleta de Exemplos:** Cadastro de classes com suporte a múltiplos uploads de imagens em área estilizada (*dropzone*).
 - **Treinamento Local:** Treinamento da camada de classificação no próprio navegador sem necessidade de envio de dados para servidores externos.
@@ -26,7 +26,7 @@ O projeto permite cadastrar classes customizadas, coletar amostras de imagem, tr
 
 ---
 
-## 💻 Como Executar o Projeto
+## Como Executar o Projeto
 
 1. **Clone o repositório:**
    git clone [https://github.com/anaclaratc3/maquina-ensinavel.git](https://github.com/anaclaratc3/maquina-ensinavel.git)
@@ -36,7 +36,7 @@ O projeto permite cadastrar classes customizadas, coletar amostras de imagem, tr
 
 ---
 
-## 📌 Como Funciona por Baixo dos Panos
+## Lógica do Sistema
 
 1. **Extração de Recursos (Feature Extraction):** A biblioteca `ml5.js` carrega o modelo **MobileNet**, que já possui o conhecimento necessário para identificar padrões visuais genéricos.
 2. **Transfer Learning:** Ao adicionar imagens para cada classe criada, o classificador armazena esses vetores de características.
@@ -44,7 +44,7 @@ O projeto permite cadastrar classes customizadas, coletar amostras de imagem, tr
 
 ---
 
-## 🌐 Demonstração ao Vivo
+## Demonstração
 
 Acesse a aplicação rodando no GitHub Pages:
 👉 [https://anaclaratc3.github.io/maquina-ensinavel/](https://anaclaratc3.github.io/maquina-ensinavel/)
